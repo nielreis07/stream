@@ -53,4 +53,52 @@ class VideoModel
             exit;
         }
     }
+
+    public static function salvar($video)
+    {
+        try{
+            $sql = "INSERT INTO video (nome, descricao, url, id) VALUES (:nome, :descricao, :url, :id)";
+            $stmt = Database::getConnection()->prepare($sql);
+            $stmt->bindValue(':nome', $video->getNome());
+            $stmt->bindValue(':descricao', $video->getDescricao());
+            $stmt->bindValue(':url', $video->getUrl());
+            $stmt->bindValue(':id', $video->getId());
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
+
+    public static function deletar($id)
+    {
+        try {
+            $sql = "DELETE FROM video WHERE id = :id";
+            $stmt = Database::getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
+
+    public static function adicionar($video)
+    {
+        try {
+            $sql = "INSERT INTO video (nome, descricao, url, id) VALUES (:nome, :descricao, :url, :id)";
+            $stmt = Database::getConnection()->prepare($sql);
+            $stmt->bindValue(':nome', $video->getNome());
+            $stmt->bindValue(':descricao', $video->getDescricao());
+            $stmt->bindValue(':url', $video->getUrl());
+            $stmt->bindValue(':id', $video->getId());
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
 }

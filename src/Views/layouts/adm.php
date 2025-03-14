@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="C:\Users\Administrador\Downloads\DALL·E 2025-02-25 19.49.25 - A professional and modern logo for 'Rentcar Auto', a car rental company. The design should feature a sleek car silhouette or a key icon, incorporating.webp" type="image/png">
-    <title>Rentcar Auto</title>
+    <link rel="icon" href="" type="image/png">
+    <title>Strem</title>
     <script src="/web/scripts/js/script.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,9 +13,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary-subtle">
         <div class="container">
-            <a class="navbar-brand" href="/">Rentcar Auto</a>
+        <i class="bi bi-film"></i>
+        <a class="navbar-brand" href="/" style="margin-left: 8px;">Strem</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,10 +24,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav #navbarNav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/clientes">Clientes</a>
+                        <a class="nav-link" href="/">Vídeo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/carros">Carros</a>
+                        <a class="nav-link" href="/usuario">Usuário</a>
                     </li>
                 </ul>
             </div>

@@ -69,8 +69,18 @@ class UsuarioController
             FlashMessage::set('mensagem', $e->getMessage(), 'danger');
             return header('Location: /usuario/' . $id);
         }
+    }
 
-        
-        
+    public function excluirUsuario($request)
+    {
+        $post = $request->getBody();
+        $id = $post['id'] ?? null;
+
+        if (UsuarioModel::deletar($id)) {
+            return View::render('usuario.index', ['usuarios' => UsuarioModel::listarUsuario()], 'adm');
+        }
+
+        FlashMessage::set('mensagem', 'Erro ao excluir usuário');
+        return View::render('usuario.index', ['usuarios' => UsuarioModel::listarUsuario()], 'adm');
     }
 }
