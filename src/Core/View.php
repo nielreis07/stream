@@ -1,28 +1,12 @@
 <?php
 
 namespace App\Core;
-
-use App\Helper\Util;
 use App\Models\Configuration;
 
 class View
 {
     public static function render(string $view, array $data = [], string $layout = 'default')
     {
-        $helper = new Util();
-        $headerData = Configuration::getHeaderData();
-
-        if (!$headerData) {
-            $headerData = [
-                'title' => 'RentCar Auto',
-                'description' => '',
-                'slides' => [''],
-                'highlightText' => '',
-            ];
-        }
-
-        $data = array_merge($headerData, $data);
-
         extract($data);
 
         $viewFile = str_replace('.', '/', $view) . '.php';

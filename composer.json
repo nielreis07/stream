@@ -1,5 +1,5 @@
 {
-    "name": "niel/rentcar",
+    "name": "niel/strem",
     "autoload": {
         "psr-4": {
             "App\\": "src/"
