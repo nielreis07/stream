@@ -3,104 +3,94 @@
 namespace App\Controllers;
 
 use App\Core\Database;
+use App\Core\FlashMessage;
+use App\Core\Request;
+use App\Core\View;
 use PDOException;
 use App\Entity\UsuarioEntity;
+use App\Entity\VideoEntity;
+use App\Models\VideoModel;
+use Exception;
 use PDO;
+use Strem\Src\Entity\Video;
 
 class VideoController
 {
-    public static function listarVideos()
-    {
-        $sql = 'SELECT * FROM video';
-        $stmt = Database::getConnection()->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-    public static function buscarPorId($id)
-    {
-        $sql = 'SELECT * FROM video WHERE id = :id';
-        $stmt = Database::getConnection()->prepare($sql);
-        $stmt->bindValue(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
-    public static function buscarVideoPorTitulo($titulo)
-    {
-        $sql = 'SELECT * FROM video WHERE nome LIKE :titulo';
-        $stmt = Database::getConnection()->prepare($sql);
-        $stmt->bindValue(':titulo', "%$titulo%");
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-    public static function atualizar($video)
+
+    public function index()
     {
         try {
-            $sql = "UPDATE video SET 
-                nome = :nome, 
-                descricao = :descricao,
-                url = :url, 
-                categoria = :categoria
-                 WHERE id = :id";
-
-            $stmt = Database::getConnection()->prepare($sql);
-            $stmt->bindValue(':nome', $video->getNome());
-            $stmt->bindValue(':descricao', $video->getDescricao());
-            $stmt->bindValue(':url', $video->getUrl());
-            $stmt->bindValue(':categoria', $video->getCategoria());
-            $stmt->bindValue(':id', $video->getId());
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
+            $videos = VideoModel::listarVideos();
+            return View::render('video.index', ['videos' => $videos], 'adm');
+        } catch (Exception $e) {
             echo $e->getMessage();
             exit;
         }
     }
 
-    public static function salvar($video)
-    {
-        try{
-            $sql = "INSERT INTO video (nome, descricao, url, id) VALUES (:nome, :descricao, :url, :id)";
-            $stmt = Database::getConnection()->prepare($sql);
-            $stmt->bindValue(':nome', $video->getNome());
-            $stmt->bindValue(':descricao', $video->getDescricao());
-            $stmt->bindValue(':url', $video->getUrl());
-            $stmt->bindValue(':id', $video->getId());
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            exit;
-        }
-    }
-
-    public static function deletar($id)
+    public function cadastrar(Request $request)
     {
         try {
-            $sql = "DELETE FROM video WHERE id = :id";
-            $stmt = Database::getConnection()->prepare($sql);
-            $stmt->bindValue(':id', $id);
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
+            if ($request->getMethod() === 'POST') {
+                $post = $request->getBody();
+
+                $video = new VideoEntity();
+                $video->setTitulo($post['titulo']);
+                $video->setDescricao($post['descricao']);
+                $video->setUrl($post['url']);
+
+                VideoModel::cadastrar($video);
+                FlashMessage::set('mensagem', 'Vídeo cadastrado com sucesso!');
+                return header('Location: /video');
+            }
+
+            return View::render('video.cadastrar', [
+                'action' => '/video/cadastrar'
+            ], 'adm');
+        } catch (Exception $e) {
             echo $e->getMessage();
             exit;
         }
     }
 
-    public static function adicionar($video)
+    public function excluir(Request $request, int $id)
     {
         try {
-            $sql = "INSERT INTO video (nome, descricao, url, id) VALUES (:nome, :descricao, :url, :id)";
-            $stmt = Database::getConnection()->prepare($sql);
-            $stmt->bindValue(':nome', $video->getNome());
-            $stmt->bindValue(':descricao', $video->getDescricao());
-            $stmt->bindValue(':url', $video->getUrl());
-            $stmt->bindValue(':id', $video->getId());
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            exit;
+            VideoModel::excluir($id);
+            FlashMessage::set('mensagem', 'Cliente excluído com sucesso!');
+            return header('Location: /video');
+        } catch (Exception $e) {
+            FlashMessage::set('mensagem', $e->getMessage(), 'danger');
+            return header('Location: /video');
         }
     }
+
+    public function editar(Request $request, int $id)
+    {
+        try {
+            if ($request->getMethod() === 'POST') {
+                $post = $request->getBody();
+
+                $video = new VideoEntity();
+                $video->setId($id);
+                $video->setTitulo($post['titulo']);
+                $video->setDescricao($post['descricao']);
+                $video->setUrl($post['url']);
+
+                VideoModel::editar($video);
+                FlashMessage::set('mensagem', 'Vídeo editado com sucesso!');
+                return header('Location: /video/editar/' . $id);
+            }
+
+            $video = VideoModel::buscarPorId($id);
+            return View::render('video.cadastrar', [
+                'action' => '/video/editar/' . $id,
+                'video' => $video
+            ], 'adm');
+        } catch (Exception $e) {
+            FlashMessage::set('mensagem', $e->getMessage(), 'danger');
+            return header('Location: /video/editar/');
+        }
+    }
+    
 }

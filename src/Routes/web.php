@@ -15,15 +15,23 @@ $router->post('/', [VideoController::class, 'index']);
 $router->get('/usuario', [UsuarioController::class, 'index']);
 $router->post('/', [UsuarioController::class, 'index']);
 
-$router->get('/usuario/cadastrar', [UsuarioController::class, 'cadastrar']);
-$router->post('/usuario/cadastrar', [UsuarioController::class, 'cadastrar']);
+$router->get('/cadastrar', [UsuarioController::class, 'cadastrar']);
+$router->post('/cadastrar', [UsuarioController::class, 'cadastrar']);
 
 $router->get('/usuario/atualizar/{id}', [UsuarioController::class, 'atualizar']);
 $router->post('/usuario/atualizar/{id}', [UsuarioController::class, 'atualizar']);
 
 $router->get('/usuario/excluir/{id}', [UsuarioController::class, 'excluir']);
-$router->post('/usuario/excluir/{id}', [UsuarioController::class, 'excluir']);
+
 
 $router->get('/usuario/pesquisa', [UsuarioController::class, 'pesquisa']);
 $router->post('/usuario/pesquisa', [UsuarioController::class, 'pesquisa']);
 
+
+$router->get('/video/cadastrar', [VideoController::class, 'cadastrar']);
+$router->post('/video/cadastrar', [VideoController::class, 'cadastrar']);
+
+$router->get('/video/excluir/{id}', [VideoController::class, 'excluir']);
+
+$router->get('/video/editar/{id}', [VideoController::class, 'editar']);
+$router->post('/video/editar/{id}', [VideoController::class, 'editar']);

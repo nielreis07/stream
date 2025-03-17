@@ -31,7 +31,7 @@
                             echo "<td>{$usuario['senha']}</td>";
                             echo "<td>";
                             echo "<a href='$usuario/cadastrar/{$usuario['id']}' class='btn btn-primary'>Editar</a> ";
-                            echo "<button onclick='excluirCliente({$usuario['id']})' class='btn btn-danger'>Excluir</button>";
+                            echo "<button onclick='excluirUsuario({$usuario['id']})' class='btn btn-danger'>Excluir</button>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -51,7 +51,7 @@
 <script>
     function excluirCliente(id) {
         if (confirm('Deseja realmente excluir este cadastro?')) {
-            window.location.href = '/usuario/cadastrar' + id;
+            window.location.href = '/usuario' + id;
         }
     }
 </script>

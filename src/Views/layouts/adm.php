@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav #navbarNav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Vídeo</a>
+                        <a class="nav-link" href="/video/cadastrar">Vídeo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/usuario">Usuário</a>
