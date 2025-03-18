@@ -8,8 +8,10 @@
         <?php endif; ?>
     <div class="row">
         <div class="col-12 mb-4">
-            <?php include 'cadastrar.php'; ?>
+            <?php include 'pesquisaUsuario.php'; ?>
         </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <table class="table table-striped">
                 <thead>
@@ -21,16 +23,16 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($usuario)) {
-                        foreach ($usuario as $usuario) {
+                    if (!empty($usuarios)) {
+                        foreach ($usuarios as $usuario) {
                             echo "<tr>";
                             echo "<td>{$usuario['id']}</td>";
-                            echo "<td>{$usuario['Nome']}</td>";
-                            echo "<td>{$usuario['username']}</td>";
+                            echo "<td>{$usuario['nome']}</td>";
+                            echo "<td>{$usuario['usuario']}</td>";
                             echo "<td>{$usuario['email']}</td>";
                             echo "<td>{$usuario['senha']}</td>";
                             echo "<td>";
-                            echo "<a href='$usuario/cadastrar/{$usuario['id']}' class='btn btn-primary'>Editar</a> ";
+                            echo "<a href='/usuario/cadastrar/{$usuario['id']}' class='btn btn-primary'>Editar</a> ";
                             echo "<button onclick='excluirUsuario({$usuario['id']})' class='btn btn-danger'>Excluir</button>";
                             echo "</td>";
                             echo "</tr>";

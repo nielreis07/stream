@@ -3,9 +3,10 @@
 namespace App\Controllers;
 
 use App\Core\FlashMessage;
+use App\Core\Request;
 use App\Core\View;
 use App\Models\UsuarioModel;
-use strem\Entity\UsuarioEntity;
+use App\Entity\UsuarioEntity;
 
 class UsuarioController
 {
@@ -13,25 +14,39 @@ class UsuarioController
     {
         try {
             $usuarios = UsuarioModel::listarUsuario();
-            return View::render('usuario.index', ['usuarios' => $usuarios], 'adm');
+            
+            $dadosView = [];
+            if (FlashMessage::get('mensagem')) {
+                $dadosView['mensagem'] = FlashMessage::get('mensagem');
+                FlashMessage::clear('mensagem');
+            }
+
+            $dadosView['usuarios'] = $usuarios;
+
+            return View::render('usuario.index', $dadosView, 'adm');
         } catch (\Exception $e) {
             echo $e->getMessage();
             exit;
         }
     }
 
-    public function cadastroUsuario($request, $id = null)
+    public function cadastrar($request, $id = null)
     {
         $dadosParaView = [];
         if (!empty($id)) {
             $dadosParaView = UsuarioModel::buscarPorId($id);
         }
         $dadosView = ['dados' => $dadosParaView];
+        
+        if (FlashMessage::get('mensagem')) {
+            $dadosView['mensagem'] = FlashMessage::get('mensagem');
+            FlashMessage::clear('mensagem');
+        } 
 
         return View::render('usuario.cadastrar', $dadosView, 'adm');
     }
 
-    public function pesquisaUsuario($request)
+    public function pesquisa($request)
     {
         $post = $request->getBody();
         $termo = $post['termo'] ?? null;
@@ -46,7 +61,7 @@ class UsuarioController
         return View::render('usuario.index', ['usuarios' => $usuarios], 'adm');
     }
 
-    public function salvarUsuario($request)
+    public function salvar(Request $request)
     {
         $post = $request->getBody();
         $id = $post['id']?? null;
@@ -54,24 +69,28 @@ class UsuarioController
         try{
             $usuario = new UsuarioEntity();
             $usuario->setId((int) $post['id']);
+            $usuario->setUsuario($post['usuario']);
             $usuario->setNome($post['nome']);
             $usuario->setEmail($post['email']);
             $usuario->setSenha($post['senha']);
-
-            if (UsuarioModel::atualizar($usuario)) {
-                return View::render('usuario.index', ['usuarios' => UsuarioModel::listarUsuario()], 'adm');
+    
+            if (!empty($id)) {
+                UsuarioModel::atualizar($usuario);
+                FlashMessage::set('mensagem', 'Alteração realizada com sucesso');
+                return header('Location: /usuario/cadastrar/' . $id);
+            } else {
+                UsuarioModel::adicionar($usuario);
+                FlashMessage::set('mensagem', 'cadastro realizado com sucesso');
+                return header('Location: /usuario');
             }
-            
-            FlashMessage::set('mensagem', 'Erro ao salvar usuário');
-            return View::render('usuario.cadastrar', ['dados' => $usuario], 'adm');
 
         } catch (\Exception $e) {
             FlashMessage::set('mensagem', $e->getMessage(), 'danger');
-            return header('Location: /usuario/' . $id);
+            return header('Location: /usuario');
         }
     }
 
-    public function excluirUsuario($request)
+    public function excluir($request)
     {
         $post = $request->getBody();
         $id = $post['id'] ?? null;

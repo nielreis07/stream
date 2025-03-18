@@ -15,11 +15,10 @@ $router->post('/', [VideoController::class, 'index']);
 $router->get('/usuario', [UsuarioController::class, 'index']);
 $router->post('/', [UsuarioController::class, 'index']);
 
-$router->get('/cadastrar', [UsuarioController::class, 'cadastrar']);
-$router->post('/cadastrar', [UsuarioController::class, 'cadastrar']);
+$router->get('/usuario/cadastrar', [UsuarioController::class, 'cadastrar']);
+$router->get('/usuario/cadastrar/{id}', [UsuarioController::class, 'cadastrar']);
 
-$router->get('/usuario/atualizar/{id}', [UsuarioController::class, 'atualizar']);
-$router->post('/usuario/atualizar/{id}', [UsuarioController::class, 'atualizar']);
+$router->post('/usuario/salvar', [UsuarioController::class, 'salvar']);
 
 $router->get('/usuario/excluir/{id}', [UsuarioController::class, 'excluir']);
 

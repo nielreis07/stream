@@ -29,6 +29,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/usuario">Usuário</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pesquisa/usuario">Pesquisar Usuário</a>
+                    </li>
                 </ul>
             </div>
         </div>

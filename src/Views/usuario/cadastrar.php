@@ -8,32 +8,28 @@
             <button type="button" class="btn-close"
                 data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php endif; ?>
-    <div class="row">
-        <div class="col-12 mb-4">
-            <?php include 'pesquisaUsuario.php'; ?>
-        </div>
+    <?php endif; ?>
     <div class="row">
         <div class="col">
             <div class="d-flex justify-content-end">
-                <a href="/" class="btn btn-primary">Voltar</a>
+                <a href="/usuario" class="btn btn-primary">Voltar</a>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <div class="card p-3">
-                <form action="/" method="post" id="formCadastrarUsuario">
+                <form action="/usuario/salvar" method="post" id="formCadastrarUsuario">
                     <input type="hidden" name="id" value="<?php echo $dados['id'] ?? '' ?>">
                     <div class="mb-3">
                         <label for="InputNome" class="form-label">Nome</label>
-                        <input name="nome_completo" type="text" value="<?php echo $dados['nome_completo'] ?? '' ?>"
+                        <input name="nome" type="text" value="<?php echo $dados['nome'] ?? '' ?>"
                             class="form-control" id="InputNome" aria-describedby="nomeHelp">
                         <div id="nomeHelp" class="form-text">Digite seu Nome.</div>
                     </div>
                     <div class="mb-3">
                         <label for="InputUsername" class="form-label">Username</label>
-                        <input name="username" type="text" value="<?php echo $dados['username'] ?? '' ?>"
+                        <input name="usuario" type="text" value="<?php echo $dados['usuario'] ?? '' ?>"
                             class="form-control" id="InputUsername" aria-describedby="usernameHelp">
                         <div id="emailHelp" class="form-text">Digite o Username</div>
                     </div>

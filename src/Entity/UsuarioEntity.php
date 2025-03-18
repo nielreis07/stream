@@ -1,11 +1,12 @@
 <?php
 
-namespace strem\Entity;
+namespace App\Entity;
 
 class UsuarioEntity
 {
     private $id;
     private $nome;
+    private $usuario;
     private $email;
     private $senha;
     public function getId(): int
@@ -18,17 +19,31 @@ class UsuarioEntity
         $this->id = $id;
     }
 
+    public function getUsuario(): string
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(string $usuario)
+    {
+        if (strlen($usuario) < 2 || strlen($usuario) > 50) {
+            throw new \Exception("Usuário inválido", 422);
+        }
+
+        $this->usuario = $usuario;
+    }
+
     public function getNome(): string
     {
         return $this->nome;
     }
 
-    public function setNome(string $nome)
+    public function setNome(?string $nome)
     {
-        if (strlen($nome) < 2 || strlen($nome) > 50) {
-            throw new \Exception("Nome inválido", 422);
+        if ($nome === null || strlen($nome) < 2 || strlen($nome) > 50) {
+            throw new \Exception("Nome inválido");
         }
-
+    
         $this->nome = $nome;
     }
 

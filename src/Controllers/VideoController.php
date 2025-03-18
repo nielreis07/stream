@@ -79,7 +79,7 @@ class VideoController
 
                 VideoModel::editar($video);
                 FlashMessage::set('mensagem', 'Vídeo editado com sucesso!');
-                return header('Location: /video/editar/' . $id);
+                return header('Location: /video');
             }
 
             $video = VideoModel::buscarPorId($id);
