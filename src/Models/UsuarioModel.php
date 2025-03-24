@@ -10,7 +10,22 @@ use PDO;
 class UsuarioModel
 {
 
+    public static function buscarPorEmail($email)
+    {
+        try {
 
+        $sql = 'SELECT * FROM usuario WHERE email = :email';
+        $stmt = Database::getConnection()->prepare($sql);
+        $stmt->bindValue(':email', $email);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        exit;
+    }
+}
     public static function listarUsuario(): array
     {
         try {
@@ -19,7 +34,7 @@ class UsuarioModel
             $stmt = Database::getConnection()->prepare($sql);
             $stmt->execute();
             
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -33,7 +48,7 @@ class UsuarioModel
         $stmt = Database::getConnection()->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function buscarUsuarioPorNome($nome)
@@ -42,7 +57,7 @@ class UsuarioModel
         $stmt = Database::getConnection()->prepare($sql);
         $stmt->bindValue(':nome', "%$nome%");
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function atualizar($usuario)
@@ -51,15 +66,23 @@ class UsuarioModel
             $sql = "UPDATE usuario SET 
                     nome = :nome, 
                     usuario = :usuario,
-                    email = :email, 
-                    senha = :senha
-                    WHERE id = :id";
+                    email = :email";
+
+            if (!empty($usuario->getSenha())) {
+
+                $sql .= 'senha = :senha';
+            }
+            $sql .= ' WHERE id = :id';
 
             $stmt = Database::getConnection()->prepare($sql);
             $stmt->bindValue(':nome', $usuario->getNome());
             $stmt->bindValue(':usuario', $usuario->getUsuario());
             $stmt->bindValue(':email', $usuario->getEmail());
-            $stmt->bindValue(':senha', $usuario->getSenha());
+
+            if (!empty($usuario->getSenha())) {
+                $stmt->bindValue(':senha', password_hash($usuario->getSenha(), PASSWORD_BCRYPT));
+            }
+
             $stmt->bindValue(':id', $usuario->getId());
             $stmt->execute();
             return true;
@@ -91,7 +114,7 @@ class UsuarioModel
             $stmt->bindValue(':nome', $usuario->getNome());
             $stmt->bindValue(':usuario', $usuario->getUsuario());
             $stmt->bindValue(':email', $usuario->getEmail());
-            $stmt->bindValue(':senha', $usuario->getSenha());
+            $stmt->bindValue(':senha', password_hash($usuario->getSenha(), PASSWORD_BCRYPT));
             $stmt->execute();
             return true;
         } catch (PDOException $e) {

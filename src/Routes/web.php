@@ -3,6 +3,7 @@
 namespace App\Routes;
 
 use App\Controllers\HomeController;
+use App\Controllers\LoginController;
 use App\Controllers\UsuarioController;
 use App\Controllers\VideoController;
 
@@ -34,3 +35,7 @@ $router->get('/video/excluir/{id}', [VideoController::class, 'excluir']);
 
 $router->get('/video/editar/{id}', [VideoController::class, 'editar']);
 $router->post('/video/editar/{id}', [VideoController::class, 'editar']);
+
+$router->get('/login', [LoginController::class, 'login']);
+$router->post('/autenticar', [LoginController::class, 'autenticar']);
+$router->get('/logout', [LoginController::class, 'logout']);

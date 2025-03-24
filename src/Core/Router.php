@@ -27,7 +27,13 @@ class Router
         $method = $this->request->getMethod();
         $uri = trim($this->request->getPath(), '/');
 
+        if (!isset($_SESSION['usuario']) && !in_array($uri, ['login', 'autenticar'])) {
+            header('Location: /login');
+            exit;
+        }
+        
         foreach ($this->routes[$method] as $route => $action) {
+            
             // Substitui parâmetros obrigatórios e opcionais corretamente
             $routePattern = preg_replace('/\{([^\}\/\?]+)\?\}/', '([^/]+)?', trim($route, '/'));
             $routePattern = preg_replace('/\{([^\}\/]+)\}/', '([^/]+)', $routePattern);

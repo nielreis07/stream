@@ -32,16 +32,18 @@
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-outline-primary me-2" type="submit"><i class="bi bi-search"></i></button>
+                    <a href="/logout" class="btn btn-danger">Sair</a>
                 </form>
             </div>
         </div>
     </nav>
-    
+
     <?php echo $content ?? ''; ?>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
