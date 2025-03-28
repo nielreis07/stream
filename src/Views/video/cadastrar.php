@@ -22,6 +22,10 @@
                         <input type="text" name="url" value="<?php echo $video['url'] ?? ''; ?>"
                         class="form-control" id="InputUrl" placeholder="Insira a URL do vídeo" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="InputArquivo" class="form-label">Upload de Arquivo</label>
+                        <input type="file" name="arquivo" class="form-control" id="InputArquivo" accept="video/*">
+                        <div id="arquivoHelp" class="form-text">Selecione um arquivo de vídeo para upload.</div>
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" onclick="limparFormulario()">Cancelar</button>
                         <button type="submit" class="btn btn-primary" onclick="salvarVideo()">Enviar</button>

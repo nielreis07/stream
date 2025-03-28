@@ -90,13 +90,12 @@ class UsuarioController
         }
     }
 
-    public function excluir($request)
+    public function excluir(Request $request, int $id)
     {
-        $post = $request->getBody();
-        $id = $post['id'] ?? null;
-
         if (UsuarioModel::deletar($id)) {
-            return View::render('usuario.index', ['usuarios' => UsuarioModel::listarUsuario()], 'adm');
+            FlashMessage::set('mensagem', 'Usuário excluído com sucesso');
+            header('Location: /usuario');
+            exit;
         }
 
         FlashMessage::set('mensagem', 'Erro ao excluir usuário');

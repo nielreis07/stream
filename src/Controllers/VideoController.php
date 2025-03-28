@@ -53,7 +53,7 @@ class VideoController
         }
     }
 
-    public function excluir(Request $request, int $id)
+    public function excluir(Request $request, ?int $id)
     {
         try {
             VideoModel::excluir($id);

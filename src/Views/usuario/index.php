@@ -51,9 +51,9 @@
 </div>
 
 <script>
-    function excluirCliente(id) {
+    function excluirUsuario(id) {
         if (confirm('Deseja realmente excluir este cadastro?')) {
-            window.location.href = '/usuario' + id;
+            window.location.href = '/usuario/excluir/' + id;
         }
     }
 </script>
