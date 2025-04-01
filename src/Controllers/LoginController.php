@@ -8,6 +8,13 @@ use App\Models\UsuarioModel;
 
 class LoginController
 {
+    public function __construct()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
     public function login()
     {
         return View::render('usuario.login', [], 'adm');
@@ -16,25 +23,23 @@ class LoginController
     public function autenticar()
     {
         try {
-            session_regenerate_id(true);
-
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $email = trim($_POST['email']);
+                $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
                 $senha = trim($_POST['senha']);
                 
-                if (empty($email) || empty($senha)) {
-                    FlashMessage::set('mensagem', 'Preencha todos os campos!');
+                if (!$email || empty($senha)) {
+                    FlashMessage::set('mensagem', 'Preencha todos os campos corretamente!', 'danger');
                     return View::render('usuario.login', ['mensagem' => FlashMessage::get('mensagem')], 'adm');
                 }
     
                 $usuario = UsuarioModel::buscarPorEmail($email);
-                if (!$usuario || !password_verify($senha, $usuario['senha'])) {
-                    FlashMessage::set('mensagem', 'E-mail ou senha inválidos!');
+                if (!$usuario || !isset($usuario['senha']) || !password_verify($senha, $usuario['senha'])) {
+                    FlashMessage::set('mensagem', 'E-mail ou senha inválidos!', 'danger');
                     return View::render('usuario.login', ['mensagem' => FlashMessage::get('mensagem')], 'adm');
                 }
     
                 $_SESSION['usuario'] = $usuario;
-
+    
                 FlashMessage::clear('mensagem');
                 header('Location: /home');
                 exit;
@@ -42,7 +47,6 @@ class LoginController
     
             return View::render('usuario.login', [], 'adm');
         } catch (\Exception $e) {
-            dd($e->getMessage());
             error_log($e->getMessage());
             FlashMessage::set('mensagem', 'Ocorreu um erro ao tentar fazer login.', 'danger');
             return View::render('usuario.login', ['mensagem' => FlashMessage::get('mensagem')], 'adm');
@@ -51,6 +55,7 @@ class LoginController
 
     public function logout()
     {
+        session_start();
         session_destroy();
         header('Location: /login');
         exit;

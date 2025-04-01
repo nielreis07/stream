@@ -9,11 +9,9 @@ Class FlashMessage {
     }
 
     public static function set(string $key, string $message, string $type = 'success'): void {
-        session_start();
-        $_SESSION['flash_message'][$key] = [
-            'message' => $message,
-            'type' => $type
-        ];
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     public static function get(string $key): array|null {
