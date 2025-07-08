@@ -64,5 +64,5 @@ Integração entre front-end e back-end
 🤝 Contribuindo
 Contribuições são bem-vindas! Caso tenha sugestões, melhorias ou correções, abra uma issue ou envie um pull request.
 
-👨‍💻 Autor
+
 Desenvolvido por Daniel Victor
